@@ -12,8 +12,8 @@
             const phaserConfig = {
                 type: Phaser.AUTO,
                 parent: "game",
-                width: 1280,
-                height: 800,
+                width: window.innerWidth * window.devicePixelRatio,
+                height: window.innerHeight * window.devicePixelRatio,
                 physics: {
                     default: 'arcade',
                     arcade: {
