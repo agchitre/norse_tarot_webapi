@@ -11,7 +11,7 @@ var GamePlay = new Phaser.Class({
     },
     create: function() {
        background=  this.add.image(400, 300, 'westbackGame');
-       background.setScale(.25);
+       background.setScale(.20);
         var text = this.add.text(
             640, 
             360, 
