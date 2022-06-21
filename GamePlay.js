@@ -69,15 +69,16 @@ var GamePlay = new Phaser.Class({
     create: function() {
         
     
-            this.add.image(400, 300, 'westback');
+            back = this.add.image(this.scale.width / 2, this.scale.height / 2, 'westback');
+            back.setDisplaySize(this.scale.width,this.scale.height);
             ammo = this.add.image(150,510,'ammo');
             barrels = this.add.image(250,510,'barrels');
-            explosivs = this.add.image(310,510,'Explosivs');
-            //barrels2 = this.add.image(300,510,'barrels2');
+            explosivs = this.add.image(this.scale.width / 3,this.scale.height - 75,'Explosivs');
+            //barrels2 = this.add.image(310,510,'barrels2');
           //  this.add.image(380,400,'box');
-            this.add.image(850,510,'ammo');
-            this.add.image(820,555,'ammo');
-            cactus = this.add.image(850,510,'cactus'); 
+            this.add.image(this.scale.width,510,'ammo');
+            this.add.image(this.scale.width - 60,500,'ammo');
+            cactus = this.add.image(this.scale.width - 140,this.scale.height - 75,'cactus').setScale(.75); 
     
             //animation for Sherif1 dead/////
             this.anims.create({
@@ -99,7 +100,7 @@ var GamePlay = new Phaser.Class({
                 repeat: -1
             });
     
-            GG = this.add.sprite(250, 350, '1')
+            GG = this.add.sprite(160, 350, '1')
                 .play('dead');
                 GG.flipX=true;
     

@@ -31,7 +31,8 @@ var Welcome = new Phaser.Class({
             this.music.play();
 
 
-       backgroundGame=  this.add.image(400, 300, 'westbackGame');
+       backgroundGame=  this.add.image(this.scale.width / 2, this.scale.height / 2, 'westbackGame');
+       backgroundGame.setDisplaySize(this.scale.width,this.scale.height);
         var text = this.add.text(
             640, 
             360, 
@@ -71,10 +72,10 @@ var Welcome = new Phaser.Class({
 
         back_text = this.add.text(10, 10, 'Try, Alexa play a game!', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
         back_text.setColor("#FFFAFA");
-        fence = this.add.image(520,510,'fence');
+        fence = this.add.image(this.scale.width / 2,this.scale.height - 95,'fence');
        
         //button start
-        const gamePlayButton = this.add.image(520, 510, 'play');
+        const gamePlayButton = this.add.image(this.scale.width / 2, this.scale.height - 90, 'play');
         gamePlayButton.setScale(.15);
         gamePlayButton.setInteractive();
         gamePlayButton.on('pointerdown', () => {
