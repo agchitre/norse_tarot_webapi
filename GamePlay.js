@@ -5,7 +5,7 @@ var gameOptions = {
     slices: 8,
 
     // prize names, starting from 12 o'clock going clockwise
-    slicePrizes: ["Dead", "Win", "Win", "Dead", "Win", "Win", "Dead"],
+    slicePrizes: ["Dead", "Win", "Win", "Dead", "Win", "Win", "Dead", "Dead"],
 
     // wheel rotation duration, in milliseconds
     rotationTime: 3000
