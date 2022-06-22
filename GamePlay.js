@@ -5,7 +5,7 @@ var gameOptions = {
     slices: 8,
 
     // prize names, starting from 12 o'clock going clockwise
-    slicePrizes: ["Dead", "Dead", "Draw", "Win", "Dead", "Win", "Win", "Dead"],
+    slicePrizes: ["Dead", "Win", "Win", "Dead", "Win", "Win", "Dead"],
 
     // wheel rotation duration, in milliseconds
     rotationTime: 3000
@@ -88,7 +88,7 @@ var GamePlay = new Phaser.Class({
             back.setDisplaySize(this.scale.width,this.scale.height);
             ammo = this.add.image(150,510,'ammo');
             barrels = this.add.image(250,510,'barrels');
-            explosivs = this.add.image(this.scale.width / 3,this.scale.height - 75,'Explosivs');
+            explosivs = this.add.image(this.scale.width / 3,this.scale.height - 75,'Explosivs').setScale(.80);
             //barrels2 = this.add.image(310,510,'barrels2');
           //  this.add.image(380,400,'box');
             this.add.image(this.scale.width,510,'ammo');
@@ -111,18 +111,11 @@ var GamePlay = new Phaser.Class({
                     { key: '30' },
                     { key: '31', duration: 50 }
                 ],
-                frameRate: 5,
-                repeat: -1
+                frameRate: 5
             });
-    
-            GG = this.add.sprite(160, 350, '1')
-                .play('dead');
-                GG.flipX=true;
-    
-    
             //animation for Sheriff2 shooter/////
             this.anims.create({
-                key: 'snooze',
+                key: 'shoot',
                 frames: [
                     { key: '1' },
                     { key: '2' },
@@ -147,9 +140,44 @@ var GamePlay = new Phaser.Class({
                 frameRate: 18,
                 repeat: -1
             });
-    
-            this.add.sprite(700, 360, '1')
-                .play('snooze');
+            //Computer
+            this.CompDead = this.add.sprite(160, 350, '1')
+            .play('dead')
+            .setScale(.95);
+            this.CompDead.visible = false;
+            this.CompDead.flipX=true;
+
+            this.Comp = this.add.sprite(160, 350, '1')
+            .play('shoot')
+            .setScale(.95);
+            this.Comp.flipX=true;
+
+            this.CompText = this.add.text(game.config.width / 9, game.config.height - 520, "Arthur the Comp", {
+                font: "bold 13px Arial",
+                align: "center",
+                color: "orange"
+            });
+            this.CompHealth=this.makeBar(game.config.width /15,game.config.height - 500,0x00F910);
+            this.setValue(this.CompHealth,100);
+
+            //Player
+            this.Player = this.add.sprite(740, 360, '1')
+                .setScale(.85)
+                .play('shoot');
+
+            this.PlayerDead = this.add.sprite(740, 360, '1')
+                .play('dead')
+                .setScale(.85);
+            this.PlayerDead.visible = false;
+
+            this.PlayerText = this.add.text(game.config.width - 190 , game.config.height - 520, "You", {
+                font: "bold 13px Arial",
+                align: "center",
+                color: "orange"
+            });
+            this.PlayerHealth=this.makeBar(this.scale.width - 250,game.config.height - 500,0x00F910);
+            this.setValue(this.PlayerHealth,100);
+
 
             //*********GAME CODE****** */
             //************************* */
@@ -166,16 +194,41 @@ var GamePlay = new Phaser.Class({
                 color: "red"
             });
  
-        // center the text
-        this.prizeText.setOrigin(0.5);
+            // center the text
+            this.prizeText.setOrigin(0.5);
 
             // the game has just started = we can spin the wheel
             this.canSpin = true;
+            //player health
+
+
 
             // waiting for your input, then calling "spinWheel" function
             this.input.on("pointerdown", this.spinWheel, this);
 
+
     },
+        makeBar(x, y,color) {
+            //draw the bar
+            let bar = this.add.graphics();
+
+            //color the bar
+            bar.fillStyle(color, 1);
+
+            //fill the bar with a rectangle
+            bar.fillRect(0, 0, 200, 50);
+            
+            //position the bar
+            bar.x = x;
+            bar.y = y;
+
+            //return the bar
+            return bar;
+        },
+        setValue(bar,percentage) {
+            //scale the bar
+            bar.scaleX = percentage/100;
+        },
     
         // function to spin the wheel
         spinWheel(){
@@ -185,6 +238,12 @@ var GamePlay = new Phaser.Class({
     
                 // resetting text field
                 this.prizeText.setText("");
+                this.setValue(this.PlayerHealth,100);
+                this.setValue(this.CompHealth,100);
+                this.Comp.visible = true;
+                this.Player.visible = true;
+                this.CompDead.visible = false;
+                this.PlayerDead.visible = false;
     
                 // the wheel will spin round from 2 to 4 times. This is just coreography
                 var rounds = Phaser.Math.Between(2, 4);
@@ -221,7 +280,26 @@ var GamePlay = new Phaser.Class({
                     onComplete: function(tween){
     
                         // displaying prize text
-                        this.prizeText.setText(gameOptions.slicePrizes[prize]);
+                        this.music =  this.sound.add('gunshotlong', {
+                            volume: 1,
+                            loop: false
+                            });
+                            this.music.play();
+
+
+                        let resultText = gameOptions.slicePrizes[prize];
+                        this.prizeText.setText(resultText);
+                        if(resultText === "Dead"){
+                            this.setValue(this.PlayerHealth,5);
+                            this.Player.visible = false;
+                            this.PlayerDead.visible = true;
+                          //  this.playerHealth.fillStyle(0xFF0000,1);
+                        }
+                        else {
+                            this.setValue(this.CompHealth,5);
+                            this.Comp.visible = false;
+                            this.CompDead.visible = true;
+                        }
     
                         // player can spin again
                         this.canSpin = true;
