@@ -7,7 +7,7 @@ var Welcome = new Phaser.Class({
        
     },
     preload: function() {
-        this.load.image('westbackGame', 'assets/background.jpeg');
+        this.load.image('westbackGame', 'assets/gameplay_background.jpg');
         this.load.image('play', 'assets/play.png');
         this.load.image('fence', 'assets/fence.png');
         this.load.image('box', 'assets/box.png');
@@ -49,10 +49,11 @@ var Welcome = new Phaser.Class({
             'Cowboys & Cowboys', 
             {
             fontSize: 20,
-            color: "#000000",
+            color: "brown",
             fontStyle: "bold"
             }
-            ).setOrigin(0.5);
+            ).setOrigin(0.5)
+            .setShadow(1,1, '#000000', 2);
   //      text.font = "Press Start 2P";
  //       text.setColor("#FFD700");
  //       text.fontStyle = "strong";  
