@@ -70,7 +70,7 @@ var Welcome = new Phaser.Class({
             repeat: -1
         });
 
-        back_text = this.add.text(10, 10, 'Try, Alexa play a game!', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        back_text = this.add.text(10, 10, 'Try, Alexa start the game!', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
         back_text.setColor("#FFFAFA");
         fence = this.add.image(this.scale.width / 2,this.scale.height - 95,'fence');
        

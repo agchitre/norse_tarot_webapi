@@ -1,4 +1,17 @@
 
+var gameOptions = {
+
+    // slices (prizes) placed in the wheel
+    slices: 8,
+
+    // prize names, starting from 12 o'clock going clockwise
+    slicePrizes: ["Dead", "Dead", "Draw", "Win", "Dead", "Win", "Win", "Dead"],
+
+    // wheel rotation duration, in milliseconds
+    rotationTime: 3000
+}
+
+
 var GamePlay = new Phaser.Class({
     Extends: Phaser.Scene,
     initialize: function() {
@@ -9,6 +22,8 @@ var GamePlay = new Phaser.Class({
     },
     preload: function() {
                 //this.load.audio('gunshot','assets/gunshot.mp3');
+                this.load.image("wheel", "assets/wheel.png");
+                this.load.image("pin", "assets/pin.png");
                 this.load.image('play', 'assets/play.png');
                 this.load.audio('gunshotlong','assets/gunshotlong.mp3');
                 this.load.audio('background','assets/backgroundMusic.mp3');
@@ -135,47 +150,85 @@ var GamePlay = new Phaser.Class({
     
             this.add.sprite(700, 360, '1')
                 .play('snooze');
-    
-    
-            // text
-    
-          //  var container = this.add.container(400, 100);
-    
-            //const text = this.add.bitmapText(100, 300, 'desyrel', 'CowBoys', 38)
-              //  .setOrigin(0.5, 0.5);
-    
-    
-    /*
-    
-            var text = this.add.text(0, 0, 'CowBoys');
-            text.font = "Press Start 2P";
-            text.setColor("#FFD700");
-            text.fontStyle = "strong";  
-            text.setOrigin(0.5, 0.5);
-            container.add(text);
-            container.setScale(3);
-    
-            this.tweens.add({
-                targets: container,
-                x: container.x + 100,
-                ease: 'Power1',
-                duration: 5000,
-                delay: 400,
-                yoyo: true,
-                repeat: -1
+
+            //*********GAME CODE****** */
+            //************************* */
+                // adding the wheel in the middle of the canvas
+            this.wheel = this.add.sprite(game.config.width / 2, game.config.height -420, "wheel").setScale(.25);
+
+            // adding the pin in the middle of the canvas
+            this.pin = this.add.sprite(game.config.width / 2, game.config.height -420, "pin").setScale(.25);
+
+            // adding the text field
+            this.prizeText = this.add.text(game.config.width / 2, game.config.height - 500, "Spin the wheel", {
+                font: "bold 13px Arial",
+                align: "center",
+                color: "red"
             });
-    
-            back_text = this.add.text(10, 10, 'Try, Alexa play a game!', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
-            back_text.setColor("#FFFAFA");
-            //button start
-            const gamePlayButton = this.add.image(520, 510, 'play');
-            gamePlayButton.setScale(.15);
-            gamePlayButton.setInteractive();
-            gamePlayButton.on('pointerdown', () => {
-                this.scene.start("GamePlay",{"message": "Game Play"});
-            });
-            */
+ 
+        // center the text
+        this.prizeText.setOrigin(0.5);
+
+            // the game has just started = we can spin the wheel
+            this.canSpin = true;
+
+            // waiting for your input, then calling "spinWheel" function
+            this.input.on("pointerdown", this.spinWheel, this);
 
     },
+    
+        // function to spin the wheel
+        spinWheel(){
+
+            // can we spin the wheel?
+            if(this.canSpin){
+    
+                // resetting text field
+                this.prizeText.setText("");
+    
+                // the wheel will spin round from 2 to 4 times. This is just coreography
+                var rounds = Phaser.Math.Between(2, 4);
+    
+                // then will rotate by a random number from 0 to 360 degrees. This is the actual spin
+                var degrees = Phaser.Math.Between(0, 360);
+    
+                // before the wheel ends spinning, we already know the prize according to "degrees" rotation and the number of slices
+                var prize = gameOptions.slices - 1 - Math.floor(degrees / (360 / gameOptions.slices));
+    
+                // now the wheel cannot spin because it's already spinning
+                this.canSpin = false;
+    
+                // animation tweeen for the spin: duration 3s, will rotate by (360 * rounds + degrees) degrees
+                // the quadratic easing will simulate friction
+                this.tweens.add({
+    
+                    // adding the wheel to tween targets
+                    targets: [this.wheel],
+    
+                    // angle destination
+                    angle: 360 * rounds + degrees,
+    
+                    // tween duration
+                    duration: gameOptions.rotationTime,
+    
+                    // tween easing
+                    ease: "Cubic.easeOut",
+    
+                    // callback scope
+                    callbackScope: this,
+    
+                    // function to be executed once the tween has been completed
+                    onComplete: function(tween){
+    
+                        // displaying prize text
+                        this.prizeText.setText(gameOptions.slicePrizes[prize]);
+    
+                        // player can spin again
+                        this.canSpin = true;
+                    }
+                });
+            }
+        }
+    ,
     update: function() {}
 });
