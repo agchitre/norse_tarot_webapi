@@ -4,11 +4,14 @@
         <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
         <script src="Welcome.js"></script>
         <script src="GamePlay.js"></script>
+        <script src="https://cdn.html.games.alexa.a2z.com/alexa-html/latest/alexa-html.js"></script> 
     </head>
     <body>
         <div id="game"></div>
         <script>
-
+            var alexaClient;
+            var debugLevel = 1;
+            setupAlexa();
             const phaserConfig = {
                 type: Phaser.AUTO,
                 parent: "game",
@@ -24,11 +27,98 @@
                         gravity: { y: 200 }
                     }
                 },
-                scene: [ Welcome, GamePlay]
+                scene: [ Welcome ]
             };
 
             const game = new Phaser.Game(phaserConfig);
             scaleRatio = window.devicePixelRatio / 3;
+
+            function setupAlexa() {
+                console.log("Attempting to set up Alexa : " + JSON.stringify(Alexa));
+                Alexa.create({version: '1.0'})
+                    .then(async (args) => {
+                        const {
+                            alexa,
+                            message
+                        } = args;
+                        alexaClient = alexa;
+                        alexaLoaded = true;
+                        console.log(JSON.stringify("args: " + JSON.stringify(args)));
+
+                        //initialize our messageSender class
+                        messageSender.init(alexaClient);
+                        messageSender.log("Capabilities: " + JSON.stringify(alexaClient.capabilities));
+
+                        if(debugLevel >= 1) {
+                            console.log("Startup Alexa success. Logging device and memory info");
+
+                            alexaClient.performance.getMemoryInfo().then((memInfo) => messageSender.log("performanceInfo: " + 
+                            JSON.stringify({
+                                display: {
+                                    innerWidth: window.innerWidth,
+                                    innerHeight: window.innerHeight
+                                },
+                                memory: memInfo,
+                                microphone: alexaClient.capabilities.microphone
+                            })));
+                            debugElement.appendChild(document.createTextNode('\nstartup succeeded, time to start my game'));
+                            infoElement.textContent = JSON.stringify(message);
+                        }
+
+                        alexaClient.speech.onStarted(() => {
+                            console.log('speech is playing');
+                        
+                        });
+                        alexaClient.speech.onStopped(() => {
+                            console.log('speech stopped playing');
+                        
+                        });
+                        // Called every time a data payload comes from backend as a message Directive.
+                        alexaClient.skill.onMessage((message) => {
+                            if(message) {
+                                //debugElement.appendChild(document.createTextNode("\n" + JSON.stringify(message)));
+                                messageSender.log("Got a message for you: " + JSON.stringify(message));
+                            }
+                    
+                            //If in intent exists and matches one of the below, play all local animations/sounds.
+                            if(message.playAnimation === true) {
+                                switch(message.intent) {
+                                    case "gamePlayStart":
+                                       // Switch to gameplay screen pail.water();
+                                       scene.scene.start(GamePlay);
+                                        break;
+                                    case "blindsDown"://todo test this and blinds up
+                                        //blinds.lower();
+                                        break;
+                                    default:
+                                        return;
+                                }
+                            }
+                        });
+                        //TODO add screen dimming.
+                        alexaClient.voice.onMicrophoneOpened(() => {
+                            // dimScreen();
+                            
+                            console.log("microphone opened");
+                        });
+                        alexaClient.voice.onMicrophoneClosed(() => {
+                            // undimScreen();
+                           
+                            console.log("microphone closed");
+                        });
+                    })
+                    .catch(error => {
+                        if(debugLevel >= 1) {
+                            console.log('\nstartup failed, for a reason: ' + JSON.stringify(error));
+
+                            //infoElement.textContent = 'startup failed, Sorry, customer.';
+                        }
+                        alexaClient = null;
+                       
+                    });
+}
+
+
 
         </script>
     </body>

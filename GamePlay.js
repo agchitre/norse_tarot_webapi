@@ -17,8 +17,8 @@ var GamePlay = new Phaser.Class({
     initialize: function() {
         Phaser.Scene.call(this, { "key": "GamePlay" });
     },
-    init: function(data) {
-         this.message = data.message;
+    init: function() {
+         //this.message = data.message;
     },
     preload: function() {
                 //this.load.audio('gunshot','assets/gunshot.mp3');
