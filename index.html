@@ -27,7 +27,7 @@
                         gravity: { y: 200 }
                     }
                 },
-                scene: [ Welcome ]
+                scene: [ Welcome, GamePlay ]
             };
 
             const game = new Phaser.Game(phaserConfig);
@@ -85,7 +85,7 @@
                                 switch(message.intent) {
                                     case "gamePlayStart":
                                        // Switch to gameplay screen pail.water();
-                                       scene.scene.start(GamePlay);
+                                       this.scene.start("GamePlay");
                                         break;
                                     case "blindsDown"://todo test this and blinds up
                                         //blinds.lower();
