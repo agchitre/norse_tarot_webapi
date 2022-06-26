@@ -21,27 +21,7 @@ var Welcome = new Phaser.Class({
                 alexaClient = alexa;
                 alexaLoaded = true;
                 console.log(JSON.stringify("args: " + JSON.stringify(args)));
-
-                //initialize our messageSender class
-                messageSender.init(alexaClient);
-                messageSender.log("Capabilities: " + JSON.stringify(alexaClient.capabilities));
-
-                if(debugLevel >= 1) {
-                    console.log("Startup Alexa success. Logging device and memory info");
-
-                    alexaClient.performance.getMemoryInfo().then((memInfo) => messageSender.log("performanceInfo: " + 
-                    JSON.stringify({
-                        display: {
-                            innerWidth: window.innerWidth,
-                            innerHeight: window.innerHeight
-                        },
-                        memory: memInfo,
-                        microphone: alexaClient.capabilities.microphone
-                    })));
-                    debugElement.appendChild(document.createTextNode('\nstartup succeeded, time to start my game'));
-                    infoElement.textContent = JSON.stringify(message);
-                }
-
+/*
                 alexaClient.speech.onStarted(() => {
                     console.log('speech is playing');
                 
@@ -49,14 +29,9 @@ var Welcome = new Phaser.Class({
                 alexaClient.speech.onStopped(() => {
                     console.log('speech stopped playing');
                 
-                });
+                }); */
                 // Called every time a data payload comes from backend as a message Directive.
                 alexaClient.skill.onMessage((message) => {
-                    if(message) {
-                        //debugElement.appendChild(document.createTextNode("\n" + JSON.stringify(message)));
-                        messageSender.log("Got a message for you: " + JSON.stringify(message));
-                    }
-            
                     //If in intent exists and matches one of the below, play all local animations/sounds.
                     if(message.playAnimation === true) {
                         switch(message.intent) {
@@ -73,6 +48,7 @@ var Welcome = new Phaser.Class({
                     }
                 });
                 //TODO add screen dimming.
+                /*
                 alexaClient.voice.onMicrophoneOpened(() => {
                     // dimScreen();
                     
@@ -82,7 +58,7 @@ var Welcome = new Phaser.Class({
                     // undimScreen();
                    
                     console.log("microphone closed");
-                });
+                });*/
             })
             .catch(error => {
                 if(debugLevel >= 1) {
