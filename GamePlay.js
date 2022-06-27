@@ -221,6 +221,20 @@ var GamePlay = new Phaser.Class({
 
 
     },
+    onAlexaMessage(message) {
+        alexaClient.skill.onMessage((message) => {
+            //If in intent exists and matches one of the below, play all local animations/sounds.
+            if(message.playAnimation === true) {
+                switch(message.intent) {
+                    case "draw"://todo test this and blinds up
+                        this.spinWheel;
+                        break;
+                    default:
+                        return;
+                }
+            }
+        });
+    },
         makeBar(x, y,color) {
             //draw the bar
             let bar = this.add.graphics();

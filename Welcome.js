@@ -40,7 +40,7 @@ var Welcome = new Phaser.Class({
                                this.scene.start("GamePlay");
                                 break;
                             case "draw"://todo test this and blinds up
-                                this.scene.start("GamePlay");
+                                //this.scene.start("GamePlay");
                             break;
                             default:
                                 return;
