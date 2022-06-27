@@ -20,7 +20,7 @@ var GamePlay = new Phaser.Class({
     init: function() {
          //this.message = data.message;                              
          alexa.skill.onMessage((message) => {
-            //If in intent exists and matches one of the below, play all local animations/sounds.
+            //If in intent exists and matches one of the below, plaefsfy all local animations/sounds.
             if(message.playAnimation === true) {
                 switch(message.intent) {
                     case "draw"://todo test this and blinds up ok
