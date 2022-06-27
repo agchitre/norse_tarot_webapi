@@ -18,7 +18,23 @@ var GamePlay = new Phaser.Class({
         Phaser.Scene.call(this, { "key": "GamePlay" });
     },
     init: function() {
-         //this.message = data.message;
+         //this.message = data.message;                              
+         alexa.skill.onMessage((message) => {
+            //If in intent exists and matches one of the below, play all local animations/sounds.
+            if(message.playAnimation === true) {
+                switch(message.intent) {
+                    case "gamePlayStart":
+                       // Switch to gameplay screen pail.water();
+                       this.scene.start("GamePlay");
+                        break;
+                    case "draw"://todo test this and blinds up
+                        this.spinWheel;
+                        break;
+                    default:
+                        return;
+                }
+            }
+        });
     },
     preload: function() {
                 //this.load.audio('gunshot','assets/gunshot.mp3');
@@ -202,7 +218,7 @@ var GamePlay = new Phaser.Class({
             //player health
 
 
-
+/*
             // waiting for your input, then calling "spinWheel" function
             this.input.on("pointerdown", this.spinWheel, this);
             alexaClient.skill.onMessage((message) => {
@@ -217,6 +233,7 @@ var GamePlay = new Phaser.Class({
                     }
                 }
             });
+            */
 
 
     },
