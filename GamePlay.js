@@ -200,7 +200,7 @@ var GamePlay = new Phaser.Class({
             // the game has just started = we can spin the wheel
             this.canSpin = true;
 
-            var emitter = new Phaser.Events.EventEmitter();
+            this.emitter = new Phaser.Events.EventEmitter();
             this.emitter.on(onMessage,this.onAlexaMessage, this);
             //player health
 
