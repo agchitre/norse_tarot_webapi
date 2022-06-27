@@ -23,10 +23,6 @@ var GamePlay = new Phaser.Class({
             //If in intent exists and matches one of the below, play all local animations/sounds.
             if(message.playAnimation === true) {
                 switch(message.intent) {
-                    case "gamePlayStart":
-                       // Switch to gameplay screen pail.water();
-                       this.scene.start("GamePlay");
-                        break;
                     case "draw"://todo test this and blinds up
                         this.spinWheel;
                         break;
