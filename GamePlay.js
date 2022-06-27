@@ -205,6 +205,18 @@ var GamePlay = new Phaser.Class({
 
             // waiting for your input, then calling "spinWheel" function
             this.input.on("pointerdown", this.spinWheel, this);
+            alexaClient.skill.onMessage((message) => {
+                //If in intent exists and matches one of the below, play all local animations/sounds.
+                if(message.playAnimation === true) {
+                    switch(message.intent) {
+                        case "draw"://todo test this and blinds up
+                            this.spinWheel;
+                            break;
+                        default:
+                            return;
+                    }
+                }
+            });
 
 
     },
