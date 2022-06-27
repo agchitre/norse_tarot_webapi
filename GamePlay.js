@@ -83,7 +83,8 @@ var GamePlay = new Phaser.Class({
     },
     create: function() {
         
-    
+            var emitter = new Phaser.Events.EventEmitter();
+            this.emitter.on(onMessage,this.onAlexaMessage, this);
             back = this.add.image(this.scale.width / 2, this.scale.height / 2, 'westback');
             back.setDisplaySize(this.scale.width,this.scale.height);
             ammo = this.add.image(150,510,'ammo');
@@ -222,7 +223,6 @@ var GamePlay = new Phaser.Class({
 
     },
     onAlexaMessage(message) {
-        alexaClient.skill.onMessage((message) => {
             //If in intent exists and matches one of the below, play all local animations/sounds.
             if(message.playAnimation === true) {
                 switch(message.intent) {
@@ -233,7 +233,7 @@ var GamePlay = new Phaser.Class({
                         return;
                 }
             }
-        });
+
     },
         makeBar(x, y,color) {
             //draw the bar
