@@ -189,7 +189,7 @@ var GamePlay = new Phaser.Class({
 
             // adding the text field
             this.prizeText = this.add.text(game.config.width / 2, game.config.height - 500, "Spin the wheel", {
-                font: "bold 13px Arial",
+                font: "bold 15px Arial",
                 align: "center",
                 color: "red"
             });
@@ -288,17 +288,19 @@ var GamePlay = new Phaser.Class({
 
 
                         let resultText = gameOptions.slicePrizes[prize];
-                        this.prizeText.setText(resultText);
+                        //this.prizeText.setText(resultText);
                         if(resultText === "Dead"){
                             this.setValue(this.PlayerHealth,5);
                             this.Player.visible = false;
                             this.PlayerDead.visible = true;
+                            this.prizeText.setText("Uh, oh! You are " + resultText);
                           //  this.playerHealth.fillStyle(0xFF0000,1);
                         }
                         else {
                             this.setValue(this.CompHealth,5);
                             this.Comp.visible = false;
                             this.CompDead.visible = true;
+                            this.prizeText.setText("Great shot! You " + resultText);
                         }
     
                         // player can spin again

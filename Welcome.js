@@ -39,8 +39,8 @@ var Welcome = new Phaser.Class({
                                // Switch to gameplay screen pail.water();
                                this.scene.start("GamePlay");
                                 break;
-                            case "blindsDown"://todo test this and blinds up
-                                //blinds.lower();
+                            case "draw"://todo test this and blinds up
+                                this.spinWheel();
                                 break;
                             default:
                                 return;
