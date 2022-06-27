@@ -83,8 +83,7 @@ var GamePlay = new Phaser.Class({
     },
     create: function() {
         
-            var emitter = new Phaser.Events.EventEmitter();
-            this.emitter.on(onMessage,this.onAlexaMessage, this);
+
             back = this.add.image(this.scale.width / 2, this.scale.height / 2, 'westback');
             back.setDisplaySize(this.scale.width,this.scale.height);
             ammo = this.add.image(150,510,'ammo');
@@ -200,6 +199,9 @@ var GamePlay = new Phaser.Class({
 
             // the game has just started = we can spin the wheel
             this.canSpin = true;
+
+            var emitter = new Phaser.Events.EventEmitter();
+            this.emitter.on(onMessage,this.onAlexaMessage, this);
             //player health
 
 
