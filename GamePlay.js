@@ -83,7 +83,7 @@ var GamePlay = new Phaser.Class({
     },
     create: function() {
         
-
+            this.setupAlexa();
             back = this.add.image(this.scale.width / 2, this.scale.height / 2, 'westback');
             back.setDisplaySize(this.scale.width,this.scale.height);
             ammo = this.add.image(150,510,'ammo');
@@ -200,8 +200,8 @@ var GamePlay = new Phaser.Class({
             // the game has just started = we can spin the wheel
             this.canSpin = true;
 
-            this.emitter = new Phaser.Events.EventEmitter();
-            this.emitter.on(onMessage,this.onAlexaMessage, this);
+            //this.emitter = new Phaser.Events.EventEmitter();
+            //this.emitter.on(onMessage,this.onAlexaMessage, this);
             //player health
 
 
@@ -222,19 +222,6 @@ var GamePlay = new Phaser.Class({
             }); */
             
 
-
-    },
-    onAlexaMessage(message) {
-            //If in intent exists and matches one of the below, play all local animations/sounds.
-            if(message.playAnimation === true) {
-                switch(message.intent) {
-                    case "draw"://todo test this and blinds up
-                        this.spinWheel;
-                        break;
-                    default:
-                        return;
-                }
-            }
 
     },
         makeBar(x, y,color) {

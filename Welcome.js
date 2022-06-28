@@ -31,12 +31,8 @@ var Welcome = new Phaser.Class({
                 
                 }); */
                 // Called every time a data payload comes from backend as a message Directive.
-                const emitter = new Phaser.Events.EventEmitter();
-                this.alexa.skill.onMessage((message) => {
-                    // This is invoked for every HandleMessage directive from the skill.
-                    emitter.emit(onMessage, message)
-                  })
-                  /*
+            
+                  
                 alexaClient.skill.onMessage((message) => {
                     //If in intent exists and matches one of the below, play all local animations/sounds.
                     if(message.playAnimation === true) {
@@ -45,11 +41,14 @@ var Welcome = new Phaser.Class({
                                // Switch to gameplay screen pail.water();
                                this.scene.start("GamePlay");
                                 break;
+                            case "draw"://todo test this and blinds up
+                                this.spinWheel;
+                                break;
                             default:
                                 return;
                         }
                     }
-                }); */
+                });
                 //TODO add screen dimming.
                 /*
                 alexaClient.voice.onMicrophoneOpened(() => {
