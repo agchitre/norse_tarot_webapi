@@ -151,21 +151,7 @@ var Welcome = new Phaser.Class({
             this.scene.start("GamePlay",{"message": "Game Play"});
         });
 
-        this.emitter = new Phaser.Events.EventEmitter();
-        this.emitter.on(onMessage,this.onAlexaMessage, this);
-    },
-    onAlexaMessage(message){
-        if(message.playAnimation === true) {
-            switch(message.intent) {
-                case "gamePlayStart":
-                   // Switch to gameplay screen pail.water();
-                   this.scene.start("GamePlay");
-                    break;
-                default:
-                    return;
-            }
-        }
-
+  
     },
     update: function() {}
 });
