@@ -31,6 +31,12 @@ var Welcome = new Phaser.Class({
                 
                 }); */
                 // Called every time a data payload comes from backend as a message Directive.
+
+                this.alexa.skill.onMessage((message) => {
+                    // This is invoked for every HandleMessage directive from the skill.
+                    emitter.emit(onMessage, message)
+                  })
+                  /*
                 alexaClient.skill.onMessage((message) => {
                     //If in intent exists and matches one of the below, play all local animations/sounds.
                     if(message.playAnimation === true) {
@@ -43,7 +49,7 @@ var Welcome = new Phaser.Class({
                                 return;
                         }
                     }
-                });
+                }); */
                 //TODO add screen dimming.
                 /*
                 alexaClient.voice.onMicrophoneOpened(() => {
@@ -79,6 +85,8 @@ var Welcome = new Phaser.Class({
     
     create: function() {
         this.setupAlexa();
+        this.emitter = new Phaser.Events.EventEmitter();
+        this.emitter.on(onMessage,this.onAlexaMessage, this);
 
         /*this.music =  this.sound.add('gunshotlong', {
             volume: 0.2,
@@ -144,6 +152,19 @@ var Welcome = new Phaser.Class({
         gamePlayButton.on('pointerdown', () => {
             this.scene.start("GamePlay",{"message": "Game Play"});
         });
+    },
+    onAlexaMessage(message){
+        if(message.playAnimation === true) {
+            switch(message.intent) {
+                case "gamePlayStart":
+                   // Switch to gameplay screen pail.water();
+                   this.scene.start("GamePlay");
+                    break;
+                default:
+                    return;
+            }
+        }
+
     },
     update: function() {}
 });
