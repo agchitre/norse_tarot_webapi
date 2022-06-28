@@ -225,6 +225,65 @@ var GamePlay = new Phaser.Class({
 
 
     },
+    setupAlexa() {
+        console.log("Attempting to set up Alexa : " + JSON.stringify(Alexa));
+        Alexa.create({version: '1.0'})
+            .then(async (args) => {
+                const {
+                    alexa,
+                    message
+                } = args;
+                alexaClient = alexa;
+                alexaLoaded = true;
+                console.log(JSON.stringify("args: " + JSON.stringify(args)));
+/*
+                alexaClient.speech.onStarted(() => {
+                    console.log('speech is playing');
+                
+                });
+                alexaClient.speech.onStopped(() => {
+                    console.log('speech stopped playing');
+                
+                }); */
+                // Called every time a data payload comes from backend as a message Directive.
+            
+                  
+                alexaClient.skill.onMessage((message) => {
+                    //If in intent exists and matches one of the below, play all local animations/sounds.
+                    if(message.playAnimation === true) {
+                        switch(message.intent) {
+                            case "draw"://todo test this and blinds up
+                                this.spinWheel;
+                                break;
+                            default:
+                                return;
+                        }
+                    }
+                });
+                //TODO add screen dimming.
+                /*
+                alexaClient.voice.onMicrophoneOpened(() => {
+                    // dimScreen();
+                    
+                    console.log("microphone opened");
+                });
+                alexaClient.voice.onMicrophoneClosed(() => {
+                    // undimScreen();
+                   
+                    console.log("microphone closed");
+                });*/
+            })
+            .catch(error => {
+                if(debugLevel >= 1) {
+                    console.log('\nstartup failed, for a reason: ' + JSON.stringify(error));
+
+                    //infoElement.textContent = 'startup failed, Sorry, customer.';
+                }
+                alexaClient = null;
+               
+            });
+       },
+    
         makeBar(x, y,color) {
             //draw the bar
             let bar = this.add.graphics();
