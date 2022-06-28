@@ -31,7 +31,7 @@ var Welcome = new Phaser.Class({
                 
                 }); */
                 // Called every time a data payload comes from backend as a message Directive.
-
+                const emitter = new Phaser.Events.EventEmitter();
                 this.alexa.skill.onMessage((message) => {
                     // This is invoked for every HandleMessage directive from the skill.
                     emitter.emit(onMessage, message)
