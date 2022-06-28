@@ -85,8 +85,7 @@ var Welcome = new Phaser.Class({
     
     create: function() {
         this.setupAlexa();
-        this.emitter = new Phaser.Events.EventEmitter();
-        this.emitter.on(onMessage,this.onAlexaMessage, this);
+        
 
         /*this.music =  this.sound.add('gunshotlong', {
             volume: 0.2,
@@ -152,6 +151,9 @@ var Welcome = new Phaser.Class({
         gamePlayButton.on('pointerdown', () => {
             this.scene.start("GamePlay",{"message": "Game Play"});
         });
+
+        this.emitter = new Phaser.Events.EventEmitter();
+        this.emitter.on(onMessage,this.onAlexaMessage, this);
     },
     onAlexaMessage(message){
         if(message.playAnimation === true) {
