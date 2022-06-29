@@ -17,8 +17,16 @@ var GamePlay = new Phaser.Class({
     initialize: function() {
         Phaser.Scene.call(this, { "key": "GamePlay" });
     },
-    init: function() {
-         //this.alexaClient = alexaClient;                              
+    init: function(alexa) {
+         this.AlexaClient = alexa;                              
+    },
+    alexaCall(){
+        this.AlexaClient.skill.onMessage((message) => {
+            //If in intent exists and matches one of the below, play all local animations/sounds.
+            if(message.intent === "draw") {
+                        this.spinWheel;
+            }
+        });
     },
     preload: function() {
                 //this.load.audio('gunshot','assets/gunshot.mp3');
@@ -83,7 +91,7 @@ var GamePlay = new Phaser.Class({
     },
     create: function() {
         
-           
+            this.alexaCall;
             back = this.add.image(this.scale.width / 2, this.scale.height / 2, 'westback');
             back.setDisplaySize(this.scale.width,this.scale.height);
             ammo = this.add.image(150,510,'ammo');
@@ -199,7 +207,7 @@ var GamePlay = new Phaser.Class({
 
             // the game has just started = we can spin the wheel
             this.canSpin = true;
-            this.alexaCall;
+         
 
 
             // this.setupAlexa();
@@ -228,21 +236,7 @@ var GamePlay = new Phaser.Class({
 
 
     },
-        alexaCall(){
-            this.alexaClient.skill.onMessage((message) => {
-                //If in intent exists and matches one of the below, play all local animations/sounds.
-                if(message.playAnimation === true) {
-                    switch(message.intent) {
-                        case "draw"://todo test this and blinds up
-                            this.spinWheel;
-                            //this.spinWheel;
-                            break;
-                        default:
-                            return;
-                    }
-                }
-            });
-        },
+       
         makeBar(x, y,color) {
             //draw the bar
             let bar = this.add.graphics();

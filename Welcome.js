@@ -39,7 +39,7 @@ var Welcome = new Phaser.Class({
                         switch(message.intent) {
                             case "gamePlayStart":
                                // Switch to gameplay screen pail.water();
-                               this.scene.start("GamePlay");
+                               this.scene.start("GamePlay", alexa);
                                 break;
                             default:
                                 return;
