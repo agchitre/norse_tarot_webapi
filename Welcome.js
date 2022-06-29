@@ -32,7 +32,7 @@ var Welcome = new Phaser.Class({
                 }); */
                 // Called every time a data payload comes from backend as a message Directive.
             
-                  
+                
                 this.alexaClient.skill.onMessage((message) => {
                     //If in intent exists and matches one of the below, play all local animations/sounds.
                     if(message.playAnimation === true) {
