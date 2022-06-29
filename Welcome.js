@@ -1,4 +1,4 @@
-var alexaClient;
+//this.alexaClient;
 var debugLevel = 1;
 var Welcome = new Phaser.Class({
     Extends: Phaser.Scene,
@@ -18,7 +18,7 @@ var Welcome = new Phaser.Class({
                     alexa,
                     message
                 } = args;
-                alexaClient = alexa;
+                this.alexaClient = alexa;
                 alexaLoaded = true;
                 console.log(JSON.stringify("args: " + JSON.stringify(args)));
 /*
@@ -33,16 +33,13 @@ var Welcome = new Phaser.Class({
                 // Called every time a data payload comes from backend as a message Directive.
             
                   
-                alexaClient.skill.onMessage((message) => {
+                this.alexaClient.skill.onMessage((message) => {
                     //If in intent exists and matches one of the below, play all local animations/sounds.
                     if(message.playAnimation === true) {
                         switch(message.intent) {
                             case "gamePlayStart":
                                // Switch to gameplay screen pail.water();
                                this.scene.start("GamePlay");
-                                break;
-                            case "draw"://todo test this and blinds up
-                                this.spinWheel;
                                 break;
                             default:
                                 return;

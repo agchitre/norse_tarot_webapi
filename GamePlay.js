@@ -199,7 +199,22 @@ var GamePlay = new Phaser.Class({
 
             // the game has just started = we can spin the wheel
             this.canSpin = true;
-             this.setupAlexa();
+            this.alexaClient.skill.onMessage((message) => {
+                //If in intent exists and matches one of the below, play all local animations/sounds.
+                if(message.playAnimation === true) {
+                    switch(message.intent) {
+                        case "draw"://todo test this and blinds up
+                        this.prizeText = "Hola Pola";
+                            //this.spinWheel;
+                            break;
+                        default:
+                            return;
+                    }
+                }
+            });
+
+
+            // this.setupAlexa();
 
             //this.emitter = new Phaser.Events.EventEmitter();
             //this.emitter.on(onMessage,this.onAlexaMessage, this);
@@ -248,7 +263,7 @@ var GamePlay = new Phaser.Class({
                 // Called every time a data payload comes from backend as a message Directive.
             
                   
-                alexaClient.skill.onMessage((message) => {
+                this.alexaClient.skill.onMessage((message) => {
                     //If in intent exists and matches one of the below, play all local animations/sounds.
                     if(message.playAnimation === true) {
                         switch(message.intent) {
@@ -284,7 +299,6 @@ var GamePlay = new Phaser.Class({
                
             });
        },
-    
         makeBar(x, y,color) {
             //draw the bar
             let bar = this.add.graphics();
