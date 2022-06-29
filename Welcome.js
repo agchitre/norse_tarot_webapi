@@ -77,6 +77,8 @@ var Welcome = new Phaser.Class({
         this.load.audio('gunshotlong','assets/gunshotlong.mp3');
         this.load.audio('background','assets/backgroundMusic.mp3');
         this.load.bitmapFont('desyrel', 'assets/fonts/bitmap/desyrel.png', 'assets/fonts/bitmap/desyrel.xml');
+
+        
     },
     
     create: function() {

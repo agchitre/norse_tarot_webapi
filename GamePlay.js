@@ -20,13 +20,11 @@ var GamePlay = new Phaser.Class({
     init: function(alexa) {
          this.AlexaClient = alexa;                              
     },
-    alexaCall(){
-        this.AlexaClient.skill.onMessage((message) => {
-            //If in intent exists and matches one of the below, play all local animations/sounds.
+    alexaCall(message){
             if(message.intent === "draw") {
                         this.spinWheel;
             }
-        });
+       
     },
     preload: function() {
                 //this.load.audio('gunshot','assets/gunshot.mp3');
@@ -87,11 +85,19 @@ var GamePlay = new Phaser.Class({
                 this.load.image('30', '10.png');
                 this.load.image('31', '11.png');
 
+                this.emitter = new Phaser.Events.EventEmitter();
+                this.alexa.skill.onMessage((message) => {
+                    // This is invoked for every HandleMessage directive from the skill.
+                    emitter.emit(onMessage, message)
+                  })
+
                 
     },
     create: function() {
         
-            this.alexaCall;
+            
+            this.emitter.on(onMessage,this.alexaCall, this);
+
             back = this.add.image(this.scale.width / 2, this.scale.height / 2, 'westback');
             back.setDisplaySize(this.scale.width,this.scale.height);
             ammo = this.add.image(150,510,'ammo');
@@ -212,8 +218,7 @@ var GamePlay = new Phaser.Class({
 
             // this.setupAlexa();
 
-            //this.emitter = new Phaser.Events.EventEmitter();
-            //this.emitter.on(onMessage,this.onAlexaMessage, this);
+            
             //player health
 
 
