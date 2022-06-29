@@ -78,11 +78,11 @@ var Welcome = new Phaser.Class({
         this.load.audio('background','assets/backgroundMusic.mp3');
         this.load.bitmapFont('desyrel', 'assets/fonts/bitmap/desyrel.png', 'assets/fonts/bitmap/desyrel.xml');
 
-        
+
     },
     
     create: function() {
-        this.setupAlexa();
+        //this.setupAlexa();
         
 
         /*this.music =  this.sound.add('gunshotlong', {

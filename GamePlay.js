@@ -17,14 +17,73 @@ var GamePlay = new Phaser.Class({
     initialize: function() {
         Phaser.Scene.call(this, { "key": "GamePlay" });
     },
-    init: function(alexa) {
-         this.AlexaClient = alexa;                              
+    init: function() {
+         //this.AlexaClient = alexa;                              
     },
     alexaCall(message){
             if(message.intent === "draw") {
                         this.spinWheel;
             }
        
+    },
+    setupAlexa() {
+        console.log("Attempting to set up Alexa : " + JSON.stringify(Alexa));
+        Alexa.create({version: '1.0'})
+            .then(async (args) => {
+                const {
+                    alexa,
+                    message
+                } = args;
+                this.alexaClient = alexa;
+                alexaLoaded = true;
+                console.log(JSON.stringify("args: " + JSON.stringify(args)));
+/*
+                alexaClient.speech.onStarted(() => {
+                    console.log('speech is playing');
+                
+                });
+                alexaClient.speech.onStopped(() => {
+                    console.log('speech stopped playing');
+                
+                }); */
+                // Called every time a data payload comes from backend as a message Directive.
+            
+                
+                this.alexaClient.skill.onMessage((message) => {
+                    //If in intent exists and matches one of the below, play all local animations/sounds.
+                    if(message.playAnimation === true) {
+                        switch(message.intent) {
+                            case "gamePlayStart":
+                                    // Switch to gameplay screen pail.water();
+                                    this.spinWheel;
+                                     break; 
+                            default:
+                                return;
+                        }
+                    }
+                });
+                //TODO add screen dimming.
+                /*
+                alexaClient.voice.onMicrophoneOpened(() => {
+                    // dimScreen();
+                    
+                    console.log("microphone opened");
+                });
+                alexaClient.voice.onMicrophoneClosed(() => {
+                    // undimScreen();
+                   
+                    console.log("microphone closed");
+                });*/
+            })
+            .catch(error => {
+                if(debugLevel >= 1) {
+                    console.log('\nstartup failed, for a reason: ' + JSON.stringify(error));
+
+                    //infoElement.textContent = 'startup failed, Sorry, customer.';
+                }
+                alexaClient = null;
+               
+            });
     },
     preload: function() {
                 //this.load.audio('gunshot','assets/gunshot.mp3');
@@ -85,18 +144,19 @@ var GamePlay = new Phaser.Class({
                 this.load.image('30', '10.png');
                 this.load.image('31', '11.png');
 
+                /*
                 this.emitter = new Phaser.Events.EventEmitter();
                 this.alexa.skill.onMessage((message) => {
                     // This is invoked for every HandleMessage directive from the skill.
                     emitter.emit(onMessage, message)
-                  })
+                  }) */
 
                 
     },
     create: function() {
         
-            
-            this.emitter.on(onMessage,this.alexaCall, this);
+        this.setupAlexa();
+            //this.emitter.on(onMessage,this.alexaCall, this);
 
             back = this.add.image(this.scale.width / 2, this.scale.height / 2, 'westback');
             back.setDisplaySize(this.scale.width,this.scale.height);
