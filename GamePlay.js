@@ -253,7 +253,8 @@ var GamePlay = new Phaser.Class({
                     if(message.playAnimation === true) {
                         switch(message.intent) {
                             case "draw"://todo test this and blinds up
-                                this.spinWheel;
+                            this.prizeText = "Hola Pola";
+                                //this.spinWheel;
                                 break;
                             default:
                                 return;
