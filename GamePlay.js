@@ -274,7 +274,7 @@ var GamePlay = new Phaser.Class({
             // the game has just started = we can spin the wheel
             this.canSpin = true;
          
-
+            this.input.on("pointerdown", this.spinWheel, this);
 
             // this.setupAlexa();
 
@@ -284,7 +284,7 @@ var GamePlay = new Phaser.Class({
 
 /*
             // waiting for your input, then calling "spinWheel" function
-            this.input.on("pointerdown", this.spinWheel, this);
+            
             alexaClient.skill.onMessage((message) => {
                 //If in intent exists and matches one of the below, play all local animations/sounds.
                 if(message.playAnimation === true) {
