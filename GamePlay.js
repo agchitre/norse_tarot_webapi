@@ -412,8 +412,8 @@ var GamePlay = new Phaser.Class({
 
                         // Send a message to your skill
                         alexaClient.skill.sendMessage({
-                            "type": "speak",
-                            "message": this.prizeText.text
+                            intent: "ask",
+                            message: this.prizeText.text
                         });
 
                         // Check the results of the SendMessage
