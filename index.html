@@ -4,7 +4,7 @@
         <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
         <script src="Welcome.js"></script>
         <script src="GamePlay.js"></script>
-        <script src="https://cdn.html.games.alexa.a2z.com/alexa-html/latest/alexa-html.js"></script> 
+        <script src="https://cdn.html.games.alexa.a2z.com/alexa-html/v1/alexa-html.js"></script> 
     </head>
     <body>
         <div id="game"></div>
@@ -25,7 +25,7 @@
                         gravity: { y: 200 }
                     }
                 },
-                scene: [ GamePlay ]
+                scene: [ Welcome, GamePlay ]
             };
 
             const game = new Phaser.Game(phaserConfig);

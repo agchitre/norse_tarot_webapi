@@ -17,14 +17,10 @@ var GamePlay = new Phaser.Class({
     initialize: function() {
         Phaser.Scene.call(this, { "key": "GamePlay" });
     },
-    init: function() {
-         //this.AlexaClient = alexa;                              
-    },
-    alexaCall(message){
-            if(message.intent === "draw") {
-                        this.spinWheel;
-            }
-       
+    init: function(data) {
+        
+         this.AlexaClient = data; 
+         console.log(this.AlexaClient);                             
     },
     setupAlexa() {
         console.log("Attempting to set up Alexa : " + JSON.stringify(Alexa));
@@ -154,10 +150,18 @@ var GamePlay = new Phaser.Class({
                 
     },
     create: function() {
-        
-        this.setupAlexa();
-            //this.emitter.on(onMessage,this.alexaCall, this);
+            //Alexa setup
+            alexaClient.skill.onMessage((message) => {
+                const m1 = JSON.stringify(message);
+                const substring = "draw"
+                // This is invoked for every HandleMessage directive from the skill.
+               if(m1.includes(substring) === true) {
+                    this.spinWheel();
+                    //console.log("here");
+                }
+              });
 
+            //Alexa end
             back = this.add.image(this.scale.width / 2, this.scale.height / 2, 'westback');
             back.setDisplaySize(this.scale.width,this.scale.height);
             ammo = this.add.image(150,510,'ammo');
@@ -399,6 +403,16 @@ var GamePlay = new Phaser.Class({
     
                         // player can spin again
                         this.canSpin = true;
+
+
+                        // Send a message to your skill
+                        alexaClient.skill.sendMessage({
+                            "type": "speak",
+                            "message": this.prizeText.text
+                        });
+
+                        // Check the results of the SendMessage
+                       
                     }
                 });
             }

@@ -1,74 +1,21 @@
-//this.alexaClient;
+//import { AlexaClient } from "./AlexaClient";
+//const AlexaClient = require('AlexaClient');
+//const EventDispatcher = require('EventDispatcher');
+//import { EventDispatcher } from "./ EventDispatcher";
 var debugLevel = 1;
+var alexaClient;
+var emitter;
 var Welcome = new Phaser.Class({
     Extends: Phaser.Scene,
     initialize: function() {
         Phaser.Scene.call(this, { "key": "Welcome" });
-    },
-    init: function() {
 
         
+
+    },
+    init: function() {   
        
     },
-    setupAlexa() {
-        console.log("Attempting to set up Alexa : " + JSON.stringify(Alexa));
-        Alexa.create({version: '1.0'})
-            .then(async (args) => {
-                const {
-                    alexa,
-                    message
-                } = args;
-                this.alexaClient = alexa;
-                alexaLoaded = true;
-                console.log(JSON.stringify("args: " + JSON.stringify(args)));
-/*
-                alexaClient.speech.onStarted(() => {
-                    console.log('speech is playing');
-                
-                });
-                alexaClient.speech.onStopped(() => {
-                    console.log('speech stopped playing');
-                
-                }); */
-                // Called every time a data payload comes from backend as a message Directive.
-            
-                
-                this.alexaClient.skill.onMessage((message) => {
-                    //If in intent exists and matches one of the below, play all local animations/sounds.
-                    if(message.playAnimation === true) {
-                        switch(message.intent) {
-                            case "gamePlayStart":
-                               // Switch to gameplay screen pail.water();
-                               this.scene.start("GamePlay", alexa);
-                                break;
-                            default:
-                                return;
-                        }
-                    }
-                });
-                //TODO add screen dimming.
-                /*
-                alexaClient.voice.onMicrophoneOpened(() => {
-                    // dimScreen();
-                    
-                    console.log("microphone opened");
-                });
-                alexaClient.voice.onMicrophoneClosed(() => {
-                    // undimScreen();
-                   
-                    console.log("microphone closed");
-                });*/
-            })
-            .catch(error => {
-                if(debugLevel >= 1) {
-                    console.log('\nstartup failed, for a reason: ' + JSON.stringify(error));
-
-                    //infoElement.textContent = 'startup failed, Sorry, customer.';
-                }
-                alexaClient = null;
-               
-            });
-                        },
     preload: function() {
         this.load.image('westbackGame', 'assets/gameplay_background.jpg');
         this.load.image('play', 'assets/play.png');
@@ -80,9 +27,49 @@ var Welcome = new Phaser.Class({
 
 
     },
+    setUpAlexa()
+    {
+        Alexa.create({version: '1.0', messageProvider: new LocalMessageProvider()})
+        .then((args) => {
+            const {
+                alexa,
+                message
+            } = args;
+            alexaClient = alexa;
+            //this.msg = message;
+            //this.registry.set('ALEXAA',this.alexaClient);
+            
+            alexaClient.skill.onMessage((message) => {
+                const m1 = JSON.stringify(message);
+                const substring = "gamePlayStart"
+                // This is invoked for every HandleMessage directive from the skill.
+               if(m1.includes(substring) === true) {
+                    this.scene.start('GamePlay', { alexaClient: alexaClient });
+                }
+                //this.emitter.emit("onMessage", message);
+               // this.scene.start("GamePlay");
+               
+               console.log(message); 
+               console.log(m1);
+               // console.log(m1.message);
+               // console.log(m1.includes(substring)); 
+              });
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    },
     
     create: function() {
-        //this.setupAlexa();
+        this.setUpAlexa();
+        
+        //this.emitter = new Phaser.Events.EventEmitter();
+       
+        //this.registry.set('EMITTERR', this.emitter);
+
+
+        //this.emitter = EventDispatcher.getInstance();
+        
         
 
         /*this.music =  this.sound.add('gunshotlong', {
@@ -121,10 +108,7 @@ var Welcome = new Phaser.Class({
             }
             ).setOrigin(0.5)
             .setShadow(1,1, '#000000', 2);
-  //      text.font = "Press Start 2P";
- //       text.setColor("#FFD700");
- //       text.fontStyle = "strong";  
-//        text.setOrigin(0.5, 0.5);
+
         container.add(text);
         container.setScale(3);
 
@@ -146,11 +130,20 @@ var Welcome = new Phaser.Class({
         const gamePlayButton = this.add.image(this.scale.width / 2, this.scale.height - 90, 'play');
         gamePlayButton.setScale(.15);
         gamePlayButton.setInteractive();
+
+        //this.emitter.on("onMessage", this.onAlexaMessage.bind(this) );
+        
         gamePlayButton.on('pointerdown', () => {
             this.scene.start("GamePlay",{"message": "Game Play"});
         });
 
   
     },
+   // onAlexaMessage(message) {
+   //     if(message.intent === "gamePlayStart") {
+     //       this.scene.start("GamePlay");
+   //     }
+
+   // },
     update: function() {}
 });
