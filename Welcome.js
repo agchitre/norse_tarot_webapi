@@ -29,12 +29,22 @@ var Welcome = new Phaser.Class({
     },
     setUpAlexa()
     {
-        Alexa.create({version: '1.0', messageProvider: new LocalMessageProvider()})
+        Alexa.create({version: '1.0'})
         .then((args) => {
             const {
                 alexa,
                 message
             } = args;
+
+            /* For localhost debugging using alexa-client
+             Alexa.create({version: '1.0', messageProvider: new LocalMessageProvider()})
+            .then((args) => {
+            const {
+                alexa,
+                message
+            } = args;
+            */
+
             alexaClient = alexa;
             //this.msg = message;
             //this.registry.set('ALEXAA',this.alexaClient);
@@ -44,6 +54,7 @@ var Welcome = new Phaser.Class({
                 const substring = "gamePlayStart"
                 // This is invoked for every HandleMessage directive from the skill.
                if(m1.includes(substring) === true) {
+                   console.log("here");
                     this.scene.start('GamePlay', { alexaClient: alexaClient });
                 }
                 //this.emitter.emit("onMessage", message);
@@ -61,6 +72,7 @@ var Welcome = new Phaser.Class({
     },
     
     create: function() {
+        
         
         
         //this.emitter = new Phaser.Events.EventEmitter();
@@ -133,10 +145,10 @@ var Welcome = new Phaser.Class({
 
         //this.emitter.on("onMessage", this.onAlexaMessage.bind(this) );
 
+     
         this.setUpAlexa();
-        
         gamePlayButton.on('pointerdown', () => {
-            this.scene.start("GamePlay",{ alexaClient: alexaClient });
+            this.scene.start("GamePlay");
         });
 
   
