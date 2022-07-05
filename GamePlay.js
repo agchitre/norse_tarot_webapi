@@ -150,18 +150,7 @@ var GamePlay = new Phaser.Class({
                 
     },
     create: function() {
-            //Alexa setup
-            alexaClient.skill.onMessage((message) => {
-                const m1 = JSON.stringify(message);
-                const substring = "draw"
-                // This is invoked for every HandleMessage directive from the skill.
-               if(m1.includes(substring) === true) {
-                    this.spinWheel();
-                    //console.log("here");
-                }
-              });
-
-            //Alexa end
+          
             back = this.add.image(this.scale.width / 2, this.scale.height / 2, 'westback');
             back.setDisplaySize(this.scale.width,this.scale.height);
             ammo = this.add.image(150,510,'ammo');
@@ -277,6 +266,19 @@ var GamePlay = new Phaser.Class({
 
             // the game has just started = we can spin the wheel
             this.canSpin = true;
+
+              //Alexa setup
+              alexaClient.skill.onMessage((message) => {
+                const m1 = JSON.stringify(message);
+                const substring = "draw"
+                // This is invoked for every HandleMessage directive from the skill.
+               if(m1.includes(substring) === true) {
+                    this.spinWheel();
+                    //console.log("here");
+                }
+              });
+
+            //Alexa end
          
             this.input.on("pointerdown", this.spinWheel, this);
 

@@ -61,7 +61,7 @@ var Welcome = new Phaser.Class({
     },
     
     create: function() {
-        this.setUpAlexa();
+        
         
         //this.emitter = new Phaser.Events.EventEmitter();
        
@@ -132,6 +132,8 @@ var Welcome = new Phaser.Class({
         gamePlayButton.setInteractive();
 
         //this.emitter.on("onMessage", this.onAlexaMessage.bind(this) );
+
+        this.setUpAlexa();
         
         gamePlayButton.on('pointerdown', () => {
             this.scene.start("GamePlay",{"message": "Game Play"});
