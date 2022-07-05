@@ -136,7 +136,7 @@ var Welcome = new Phaser.Class({
         this.setUpAlexa();
         
         gamePlayButton.on('pointerdown', () => {
-            this.scene.start("GamePlay",{"message": "Game Play"});
+            this.scene.start("GamePlay",{ alexaClient: alexaClient });
         });
 
   
