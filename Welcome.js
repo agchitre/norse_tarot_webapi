@@ -29,7 +29,7 @@ var Welcome = new Phaser.Class({
     },
     setUpAlexa()
     {
-        Alexa.create({version: '1.0', messageProvider: new LocalMessageProvider()})
+        Alexa.create({version: '1.0'})
         .then((args) => {
             const {
                 alexa,
