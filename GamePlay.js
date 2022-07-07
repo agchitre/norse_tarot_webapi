@@ -1,4 +1,6 @@
 
+var score = 0;
+var scoreText;
 var gameOptions = {
 
     // slices (prizes) placed in the wheel
@@ -153,7 +155,7 @@ var GamePlay = new Phaser.Class({
           
 
            
-
+            
             back = this.add.image(this.scale.width / 2, this.scale.height / 2, 'westback');
             back.setDisplaySize(this.scale.width,this.scale.height);
             ammo = this.add.image(150,510,'ammo');
@@ -222,7 +224,7 @@ var GamePlay = new Phaser.Class({
             .setScale(.95);
             this.Comp.flipX=true;
 
-            this.CompText = this.add.text(game.config.width / 9, game.config.height - 520, "Arthur the Comp", {
+            this.CompText = this.add.text(game.config.width / 9, game.config.height - 520, "Arthur the bot", {
                 font: "bold 13px Arial",
                 align: "center",
                 color: "orange"
@@ -259,10 +261,12 @@ var GamePlay = new Phaser.Class({
 
             // adding the text field
             this.prizeText = this.add.text(game.config.width / 2, game.config.height - 500, "Spin the wheel", {
-                font: "bold 15px Arial",
+                font: "bold 25px Arial",
                 align: "center",
                 color: "red"
             });
+
+            scoreText = this.add.text(420, 510, 'SCORE: 0', { fontSize: '32px', fill: 'red' }); 
  
             // center the text
             this.prizeText.setOrigin(0.5);
@@ -396,7 +400,7 @@ var GamePlay = new Phaser.Class({
                             this.setValue(this.PlayerHealth,5);
                             this.Player.visible = false;
                             this.PlayerDead.visible = true;
-                            this.prizeText.setText("Uh, oh! You are " + resultText);
+                            this.prizeText.setText("Uh oh! You are " + resultText);
                           //  this.playerHealth.fillStyle(0xFF0000,1);
                         }
                         else {
@@ -404,6 +408,9 @@ var GamePlay = new Phaser.Class({
                             this.Comp.visible = false;
                             this.CompDead.visible = true;
                             this.prizeText.setText("Great shot! You " + resultText);
+                            score += 10;
+                            scoreText.setText('Score: ' + score);
+
                         }
     
                         // player can spin again
