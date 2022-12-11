@@ -17,10 +17,7 @@ var Welcome = new Phaser.Class({
        
     },
     preload: function() {
-        this.load.image('westbackGame', 'assets/gameplay_background.jpg');
-        this.load.image('play', 'assets/play.png');
-        this.load.image('fence', 'assets/fence.png');
-        this.load.image('box', 'assets/box.png');
+        this.load.image('westbackGame', 'assets/Dragontpit.jpg');
         this.load.audio('gunshotlong','assets/gunshotlong.mp3');
         this.load.audio('background','assets/backgroundMusic.mp3');
         this.load.bitmapFont('desyrel', 'assets/fonts/bitmap/desyrel.png', 'assets/fonts/bitmap/desyrel.xml');
