@@ -109,7 +109,7 @@ var Welcome = new Phaser.Class({
 
         var container = this.add.container(400, 100);
         var text = this.add.text(0, 0, 
-            'Cowboys & Cowboys', 
+            'Dragon Wars', 
             {
             fontSize: 20,
             color: "brown",
