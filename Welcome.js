@@ -17,7 +17,7 @@ var Welcome = new Phaser.Class({
        
     },
     preload: function() {
-        this.load.image('westbackGame', 'assets/Dragontpit.jpg');
+        this.load.image('westbackGame', 'assets/Dragonpit.jpg');
         this.load.image('play', 'assets/play.png');
         this.load.image('fence', 'assets/fence.png');
         this.load.image('box', 'assets/box.png');
